@@ -5,6 +5,15 @@
 - **Repo:** https://github.com/NguyenNgocTu041105/finance-ai-agent
 
 ---
+### 13/10/2026: Buổi 8 - Test Fallback thực tế
+- **Mục tiêu:** Ép lỗi có chủ đích để kiểm tra hệ thống chuyển model tự động.
+- **Thử nghiệm:** Cố tình sửa sai API key và tên model của Gemini và Groq trong `.env`.
+- **Kết quả:**
+  - Gemini dính lỗi hỏng model -> Bỏ qua.
+  - Groq dính `BadRequestError` (sai key) -> Bỏ qua ngay lập tức, không retry vô ích.
+  - OpenRouter ở chốt chặn cuối cùng gánh thành công, trả lời chính xác câu hỏi ("Messi là ai").
+- **Đánh giá:** Logic fallback và retry đã chạy chuẩn xác 100%.
+- **Bước tiếp theo:** Bắt tay vào làm **Project M1** (Ghép Function Calling lấy dữ liệu chứng khoán thật vào hệ thống fallback).
 
 ### 12/10/2026: Multi-Model Fallback & Xử lý lỗi hệ thống
 
@@ -17,7 +26,7 @@
 - **Vấn đề 3 (Mất env):** `load_dotenv()` không nhận diện được file `.env` khi chạy từ thư mục gốc.
   - *Xử lý:* Đổi sang `Path(__file__).resolve().parent / ".env"`.
 - **Kết quả:** Fallback hoạt động, chat không bị gián đoạn khi 1 model lỗi.
-- **Next:** Function Calling với vnstock.
+- **Bước tiếp theo:** Function Calling với vnstock.
 
 ---
 
@@ -31,4 +40,4 @@
 - **Vấn đề (Lỗi 429):** Gemini Free Tier bị giới hạn request/ngày, dính `RESOURCE_EXHAUSTED` sau khoảng 20 lượt chat.
   - *Bài học:* Bắt buộc phải có giải pháp Multi-Model Fallback để hệ thống không bị gián đoạn.
 - **Kết quả:** Gemini chạy được nhưng bị giới hạn quota.
-- **Next:** Nghiên cứu Multi-Model Fallback.
+- **Bước tiếp theo:** Nghiên cứu Multi-Model Fallback.
