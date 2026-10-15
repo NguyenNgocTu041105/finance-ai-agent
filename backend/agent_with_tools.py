@@ -9,7 +9,7 @@ from llm_client import call_llm
 from tools import AVAILABLE_TOOLS, TOOLS_SCHEMA
 
 
-SSYSTEM_PROMPT = """
+SYSTEM_PROMPT = """
 Bạn là trợ lý tài chính chuyên về chứng khoán Việt Nam, đồng thời là chuyên gia kinh tế.
 
 QUY TẮC GỌI TOOL:
@@ -60,6 +60,7 @@ VÍ DỤ:
 
 Trả lời bằng tiếng Việt, ngắn gọn, không bịa số liệu thực tế.
 """
+
 
 def run_agent(user_message: str) -> str:
     """Chạy Agent với Function Calling."""
