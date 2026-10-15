@@ -1,3 +1,6 @@
 google-genai>=2.29.0
 python-dotenv>=1.2.4
 litellm>=1.105.0
+yfinance>=1.7.0
+pandas>=2.2.0
+vnstock>=4.0.0

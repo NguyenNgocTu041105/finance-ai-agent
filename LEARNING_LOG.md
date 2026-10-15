@@ -5,6 +5,29 @@
 - **Repo:** https://github.com/NguyenNgocTu041105/finance-ai-agent
 
 ---
+
+### 15/10/2026: Hoàn thành Milestone 1 - Financial Tools & Agent với Function Calling
+
+- **Mục tiêu:** Tích hợp dữ liệu chứng khoán thật (`vnstock`) vào LLM và hoàn thiện Agent tự động gọi Tool.
+- **Đã làm:**
+  - Hoàn thiện `tools.py`: 3 tools lấy dữ liệu thật (`get_stock_price`, `get_company_info`, `get_financial_ratios`) kèm `TOOLS_SCHEMA` cho Function Calling.
+  - Xử lý bài toán thiếu dữ liệu BCTC: Thiết kế cơ chế **Smart Fallback** cho chỉ số tài chính (tự tìm quý gần nhất có dữ liệu kèm cờ `is_latest` để LLM tự quyết định ngữ cảnh so sánh).
+  - Hoàn thiện `agent_with_tools.py`: Xây dựng vòng lặp Two-turn Function Calling hoàn chỉnh.
+  - Xử lý lỗi gõ sai mã (Typo): Dùng Prompt Engineering để Agent tự động map tên doanh nghiệp / mã sai phổ biến ("thế giới di động" -> `MWG`, "FBT" -> `FPT`).
+- **Thử nghiệm thực tế:**
+  - Test hỏi giá MWG: Gemini dính lỗi 503 và Timeout -> Hệ thống tự động kích hoạt Fallback 2 lần sang Groq GPT-OSS 120B thành công, trả về đúng giá 72.8k.
+  - Test hỏi ngoài phạm vi (trái phiếu): Agent nhận biết phạm vi, không gọi bừa tool và từ chối lịch sự.
+- **Quyết định kiến trúc:**
+  - MVP (Hiện tại): Dùng Prompt Engineering xử lý mã cổ phiếu và hướng dẫn đọc quý BCTC.
+  - Giai đoạn sau (Multi-Agent): Nâng cấp Tool trả về cả `latest_quarter_data` và `complete_quarter_data` khi cần phân tích chéo đa agent; mở rộng thêm các danh mục đầu tư khác (Trái phiếu, Vĩ mô).
+- **Kết quả:** Đạt mục tiêu **Milestone 1 (Giai đoạn 1)** của Master Roadmap.
+- **Bước tiếp theo:** Bắt đầu **Milestone 2 (Giai đoạn 2)**: RAG nâng cao cho Báo cáo tài chính (PDF parsing, trích xuất dữ liệu BCTC chi tiết).
+
+
+## 14/10/2026 Hoàn thiện LLM Client
+### Làm được
+- Xong `llm_client.py`: multi-model fallback Gemini → Groq → OpenRouter, Retry + Exponential Backoff, hỗ trợ Function Calling. Test chạy ổn.
+
 ### 13/10/2026: Buổi 8 - Test Fallback thực tế
 - **Mục tiêu:** Ép lỗi có chủ đích để kiểm tra hệ thống chuyển model tự động.
 - **Thử nghiệm:** Cố tình sửa sai API key và tên model của Gemini và Groq trong `.env`.
