@@ -28,3 +28,9 @@ venv.bak/
 # OS
 .DS_Store
 Thumbs.db
+
+
+# RAG data and vector storage
+backend/storage/
+backend/data/*.pdf
+backend/sample_finance.txt

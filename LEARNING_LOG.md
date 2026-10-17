@@ -6,6 +6,28 @@
 
 ---
 
+## 17/10/2026: Hoàn thành Buổi 10 - RAG cơ bản với LangChain
+
+- **Mục tiêu:** Xây dựng pipeline RAG (Retrieval-Augmented Generation) cơ bản để LLM có thể đọc hiểu tài liệu nội bộ thay vì chỉ trả lời dựa trên kiến thức sẵn có.
+- **Đã làm:**
+  - Cài đặt thành công bộ thư viện lõi: `langchain`, `langchain-community`, `langchain-chroma`, `chromadb`, `pypdf`.
+  - Viết `rag_basic.py`: Cấu trúc pipeline 5 bước chuẩn (Load -> Chunk -> Embed -> Store -> Retrieve & Generate).
+  - Áp dụng **LCEL (LangChain Expression Language)** để nối prompt, LLM và output parser bằng dấu `|`.
+  - Xử lý triệt để lỗi trùng lặp dữ liệu: Tự động xóa thư mục `./storage/chroma_db` trước mỗi lần chạy bằng `shutil.rmtree` (bọc try-except để tránh lỗi lock file trên Windows).
+- **Thử nghiệm thực tế:**
+  - Tạo file text giả lập BCTC FPT Quý 2/2026.
+  - Chạy RAG hỏi "Nợ phải trả của FPT quý 2/2026 là bao nhiêu?" -> Pipeline tìm đúng chunk và trả lời chính xác "25,000 tỷ VND".
+- **Lỗi gặp phải & Cách khắc phục:**
+  - Lỗi `ModuleNotFoundError: langchain_chroma` -> Cài bổ sung gói `langchain-chroma` (do LangChain tách nhỏ các gói tích hợp).
+  - Lỗi `404 NOT_FOUND` với `text-embedding-004` -> Google đã khai tử model này, chuyển sang `gemini-embedding-001`.
+  - Lỗi `404 NOT_FOUND` với `gemini-2.5-flash` -> Chuyển sang model mới `gemini-3.8-flash`.
+- **Bài học rút ra:**
+  - RAG gồm 5 bước, trong đó bước **Retrieval (Tìm kiếm)** là trái tim của hệ thống.
+  - `chunk_overlap` không có con số hoàn hảo tuyệt đối. Nó thường được đặt bằng 10-20% của `chunk_size` để bắc cầu ngữ cảnh.
+  - Vector Embeddings là cách máy tính hiểu ngữ nghĩa (chuyển chữ thành dãy số).
+- **Kết quả:** Chạy thành công RAG pipeline đầu tiên, tạo tiền đề cho việc xử lý dữ liệu phi cấu trúc.
+- **Bước tiếp theo:** Bắt đầu **Buổi 11**: Đọc file PDF BCTC thật thay vì file text mẫu.
+
 ### 15/10/2026: Hoàn thành Milestone 1 - Financial Tools & Agent với Function Calling
 
 - **Mục tiêu:** Tích hợp dữ liệu chứng khoán thật (`vnstock`) vào LLM và hoàn thiện Agent tự động gọi Tool.
